@@ -65,7 +65,7 @@ def runServerChecks(serverip):
 	  if line == '':
 	  	break
 
-	print lines
+	#print lines
 	for route in routes:	
 		if lines.find(route) == -1:
 			print "" + route + " \033[91m NOT FOUND\033[0m"
