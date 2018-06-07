@@ -22,17 +22,17 @@ for serverip in servers:
 	ssh.load_system_host_keys()
 	ssh.connect(serverip, port, username="nas", password="naslab")
 
-	#1. check current available congestion controls
-	print "Connection between switches"
-	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("ethtool eth1")
+#2. check current available congestion controls
+print "Connection between switches"
+ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("ethtool eth1")
 
-	while True:
-		line = ssh_stdout.readline()
+while True:
+	line = ssh_stdout.readline()
 
-		if line == '':
-			break
+	if line == '':
+		break
 
-		print line
+	print line
 
 
 		
