@@ -53,5 +53,23 @@ def runServerChecks(serverip):
 	if lines.find("reno") != -1:
 	    print "\033[96m Reno \033[0m"
 
+	#3. check if the servers no eachother
+	routes = ["172.16.1.0", "172.16.2.0", "172.16.3.0", "172.16.4.0", "172.16.5.0", "172.16.6.0", "172.16.7.0", "172.16.8.0", "172.16.9.0"]
+	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("netstat -rn")
+
+	lines = ""
+	while True:
+	  line = ssh_stdout.readline()
+	  lines = lines + line
+
+	  if line == '':
+	  	break
+
+	print lines
+	for route in routes:	
+		if lines.find(route) == -1:
+			print "" + route + " \033[91m NOT FOUND\033[0m"
+
+
 	print "" #add white space
 
