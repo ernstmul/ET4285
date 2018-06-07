@@ -16,13 +16,13 @@ for serverip in servers:
 		print "" + serverip + " \033[91m CLOSED\033[0m"
 		print "" #whitespace
 
-	#check the connectionspeed between switches 3 and 19
-	port = 22
-	ssh = SSHClient()
-	ssh.load_system_host_keys()
-	ssh.connect(serverip, port, username="nas", password="naslab")
+#check the connectionspeed between switches 3 and 19
+port = 22
+ssh = SSHClient()
+ssh.load_system_host_keys()
+ssh.connect("10.10.2.19", port, username="nas", password="naslab")
 
-#2. check current available congestion controls
+#heck current available congestion controls
 print "Connection between switches"
 ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("ethtool eth1")
 
