@@ -73,7 +73,7 @@ def processDataStream(terminalLine):
 		if item.find(":") != -1:
 			key,value = item.split(":")
 			resultList[key] = value
-			#print "key:" + key + " value:"+value
+			print "key:" + key + " value:"+value
 
 	resultList['elapsed'] = (time.time() - start_time)
 
@@ -86,16 +86,17 @@ def getSSresult(ssh):
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("ss -i")
 
 	#loop through the terminal results
-	while True:
-		line = ssh_stdout.readline().rstrip()
-
+	for line in ssh_stdout:
+		
 		#check if it's the line we are interested in
 		if line.find("cwnd") != -1:
-			processDataStream(line)
+			processDataStream(line.rstrip())
+
+		#print line
 
 		#cancel the while loop when needed
-		if line == '':
-	  		break
+		#if line == '':
+	  		#break
 
 	#call the function again if within the time setting
 	if (time.time() - start_time) < runtime:
