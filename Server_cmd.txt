@@ -1,0 +1,39 @@
+All the commands are to be executed in /home/nas/chromium/src/
+
+Start a server:
+sudo ./out/Default/quic_server --quic_response_cache_dir=/tmp/quic-data/www.example.org --certificate_file=net/tools/quic/certs/out/leaf_cert.pem --key_file=net/tools/quic/certs/out/leaf_cert.pkcs8
+
+Start a client (loopback):
+sudo ./out/Default/quic_client --disable-certificate-verification --host=127.0.0.1 --port=6121 https://www.example.org/
+
+No output: --quiet
+
+----------------------------------------------------------------------------------
+
+If there is a problem with certificates.
+NB: right now certificates a have validity of 3 days
+
+List installed cert:
+sudo certutil -d sql:$HOME/.pki/nssdb -L
+
+If any problem with certutil (bas database):
+mkdir -p $HOME/.pki/nssdb
+certutil -d $HOME/.pki/nssdb -N
+Use pwd: naslab01
+
+Delete the quic cert:
+sudo certutil -d sql:$HOME/.pki/nssdb -D -n QUICServerRootCA
+
+If need to generate again the certificates:
+cd ./net/tools/quic/certs/
+sudo ./generate-certs.sh
+cd -
+
+Add quic cert:
+sudo certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n QUICServerRootCA -i net/tools/quic/certs/out/2048-sha256-root.pem
+
+Copy cert from one server to another:
+scp -r ./certs/out nas@10.10.2.18:/home/nas/
+
+----------------------------------------------------------------------------------
+
