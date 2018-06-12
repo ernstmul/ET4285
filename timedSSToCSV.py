@@ -6,13 +6,19 @@ import sys
 #get the arguments
 args = sys.argv
 
+if len(args) < 5:
+	print "\033[91m Not all arguments set\033[0m nodeId runtime, interval, boundedIp"
+	exit()
+
 serverid = args[1]
 runtime = float(args[2])
 interval = float(args[3])
+bindip = args[4]
 
 print "Server:" + serverid
 print "Run time:" + str(runtime)
 print "Interval:" + str(interval)
+print "Bounded IP:" + str(bindip)
 
 #init variables
 completeList = []
@@ -84,12 +90,18 @@ def processDataStream(terminalLine):
 def getSSresult(ssh):
 	#obtain the result
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("ss -i")
+	shouldAddNextLine = 0
 
 	#loop through the terminal results
 	for line in ssh_stdout:
+
+		#check for the correct port number
+		if line.find(bindip) != -1:
+			shouldAddNextLine = 1
 		
 		#check if it's the line we are interested in
-		if line.find("cwnd") != -1:
+		if line.find("cwnd") != -1 and shouldAddNextLine == 1:
+			shouldAddNextLine = 0
 			processDataStream(line.rstrip())
 
 		#print line
