@@ -3,7 +3,9 @@ from subprocess import check_output
 from serverChecks import runServerChecks
 
 #server list
-servers = ["10.10.2.4", "10.10.2.6", "10.10.2.7", "10.10.2.9", "10.10.2.3", "10.10.2.19", "10.10.2.16", "10.10.2.18", "10.10.2.15", "10.10.2.5"]
+
+servers = ["10.10.2.4", "10.10.2.6", "10.10.2.7", "10.10.2.9", "10.10.2.2", "10.10.2.19", "10.10.2.16", "10.10.2.18", "10.10.2.15", "10.10.2.5", "10.10.2.3"]
+
 
 #loop through all servers
 for serverip in servers:
