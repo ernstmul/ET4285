@@ -29,7 +29,7 @@ start_time = time.time()
 #bytes_acked: ?
 #bytes_received: ?
 #rcv_space: Ernst: I think this might be a sort of identifier, thats why I added it
-variables = ['elapsed', 'cwnd', 'bytes_acked', 'bytes_received', 'rcv_space']
+variables = ['elapsed', 'portnumber', 'cwnd', 'bytes_acked', 'bytes_received', 'rcv_space']
 
 #create the csv
 def createCsv():
@@ -68,7 +68,7 @@ def createCsv():
 	print "Saved as:" + filename
 
 #parse the terminal output to the values we want
-def processDataStream(terminalLine):
+def processDataStream(terminalLine, portnumber):
 	#split the dataset into the seperate elements
 	items = terminalLine.split(" ")
 
@@ -79,30 +79,46 @@ def processDataStream(terminalLine):
 		if item.find(":") != -1:
 			key,value = item.split(":")
 			resultList[key] = value
-			print "key:" + key + " value:"+value
+			#print "key:" + key + " value:"+value
 
 	resultList['elapsed'] = (time.time() - start_time)
+	resultList['portnumber'] = portnumber
 
 	#add the list to the definitive list we use to later create the csv
 	completeList.append(resultList)
+
+#parse the line with portnumber to only the portnumber
+def getPortNumberFromLine(terminalLine):
+	#split the dataset into the seperate elements
+	items = terminalLine.split(" ")
+
+	for item in items:
+		#split the item on :, it the item has it
+		if item.find(":") != -1:
+			key,value = item.split(":")
+			if key == bindip:
+				return value
+	return "-"
 
 #obtaining the ss results
 def getSSresult(ssh):
 	#obtain the result
 	ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("ss -i")
 	shouldAddNextLine = 0
+	portnumber = ""
 
 	#loop through the terminal results
 	for line in ssh_stdout:
 
 		#check for the correct port number
 		if line.find(bindip) != -1:
+			portnumber = getPortNumberFromLine(line)
 			shouldAddNextLine = 1
 		
 		#check if it's the line we are interested in
 		if line.find("cwnd") != -1 and shouldAddNextLine == 1:
 			shouldAddNextLine = 0
-			processDataStream(line.rstrip())
+			processDataStream(line.rstrip(), portnumber)
 
 		#print line
 
