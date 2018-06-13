@@ -1,4 +1,5 @@
 from paramiko import SSHClient
+import subprocess
 
 def make_ssh_connection(server_ip):
 	## Make ssh connection
@@ -15,11 +16,14 @@ def start_iperf3_server(server_ip):
 	## Start iperf3 on the receiving server
 	ssh.exec_command("iperf3 -s")
 
-def start_iperf3_client(client_ip, server_ip)
+def start_iperf3_client(client_ip, server_ip):
 	ssh = make_ssh_connection(client_ip)
+
+	stdout = subprocess.PIPE
 
 	## Start iperf3 test
 	stdin, stdout, stderr = ssh.exec_command("iperf3 -c " + server_ip + " -i1 -t60")
+	stdout.stdout.readlines()
 	print(stdout)
 
 #node 15
