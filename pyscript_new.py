@@ -25,10 +25,9 @@ completeList = []
 start_time = time.time()
 
 #elapsed: seconds since start of running the script
-#cwnd: ?
-#bytes_acked: ?
-#bytes_received: ?
-#rcv_space: Ernst: I think this might be a sort of identifier, thats why I added it
+#cwnd
+#ssthresh
+#rtt
 variables = ['elapsed', 'portnumber', 'cwnd', 'ssthresh', 'rtt']
 
 #create the csv
@@ -116,7 +115,7 @@ def getSSresult(ssh):
 			shouldAddNextLine = 1
 		
 		#check if it's the line we are interested in
-		if line.find("cwnd") != -1 and shouldAddNextLine == 1:
+		if line.find("rtt") != -1 and shouldAddNextLine == 1:
 			shouldAddNextLine = 0
 			processDataStream(line.rstrip(), portnumber)
 
