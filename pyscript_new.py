@@ -69,13 +69,14 @@ def createCsv():
 #parse the terminal output to the values we want
 def processDataStream(terminalLine, portnumber):
 	#split the dataset into the seperate elements
-	items = terminalLine.split(" ")
+	items = terminalLine.split(" |\t")
 
 	resultList = {}
 
 	for item in items:
 		#split the item on :, it the item has it
 		if item.find(":") != -1:
+			print item
 			key,value = item.split(":")
 			resultList[key] = value
 			#print "key:" + key + " value:"+value
@@ -115,7 +116,7 @@ def getSSresult(ssh):
 			shouldAddNextLine = 1
 		
 		#check if it's the line we are interested in
-		if line.find("rtt") != -1 and shouldAddNextLine == 1:
+		if line.find("cwnd") != -1 and shouldAddNextLine == 1:
 			shouldAddNextLine = 0
 			processDataStream(line.rstrip(), portnumber)
 
