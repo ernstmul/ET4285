@@ -58,7 +58,7 @@ def createCsv():
 		csvTotalText = csvTotalText + csvLine[:-1] + "\n" 
 
 	#create the csv
-	filename = "results-" + str(time.time()) +".csv"
+	filename = "results1-" + str(time.time()) +".csv"
 
 	csv_file = open(filename, "w")
 	csv_file.write(csvTotalText)
@@ -78,7 +78,6 @@ def processDataStream(terminalLine, portnumber):
 		if item.find("bbr") != -1:
 			subitems = item.split(" ")
 			if "bbr" or "\t" in subitem: subitems.remove("bbr"); subitems.remove("\t")
-			if "cubic" or "reno" in subitem: subitems.remove("cubic"); subitems.remove("reno")
 			for subitem in subitems:
 				if not subitem.startswith("bbr:"):
 					if ":" in subitem:
