@@ -70,15 +70,20 @@ def createCsv():
 def processDataStream(terminalLine, portnumber):
 	#split the dataset into the seperate elements
 	items = terminalLine.split(" |\t")
-
+	print items
 	resultList = {}
 
 	for item in items:
 		#split the item on :, it the item has it
-		if item.find(":") != -1:
-			print item
-			key,value = item.split(":")
-			resultList[key] = value
+		if item.find("bbr") != -1:
+			subitems = item.split(" ")
+			if "bbr" or "\t" in subitem: subitems.remove("bbr"); subitems.remove("\t")
+			for subitem in subitems:
+				if not subitem.startswith("bbr:"):
+					if ":" in subitem:
+						print subitem
+						key,value = subitem.split(":")
+						resultList[key] = value
 			#print "key:" + key + " value:"+value
 
 	resultList['elapsed'] = (time.time() - start_time)
