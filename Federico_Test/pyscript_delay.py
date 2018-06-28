@@ -75,9 +75,9 @@ def processDataStream(terminalLine, portnumber):
 
 	for item in items:
 		#split the item on :, it the item has it
-		if "bbr" in item:
+		if "cubic" in item:
 			subitems = item.split(" ")
-			if "bbr" or "\t" in subitem: subitems.remove("bbr"); subitems.remove("\t")
+			if "cubic" or "\t" in subitem: subitems.remove("cubic"); subitems.remove("\t")
 			#if "cubic" or "reno" in subitem: subitems.remove("cubic"); subitems.remove("reno")
 			for subitem in subitems:
 				if not subitem.startswith("bbr:"):
