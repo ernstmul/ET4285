@@ -1,0 +1,8 @@
+    7128544 segments received
+    14079559 segments sent out
+    427010 segments retransmitted
+    46 bad segments received
+    7199119 segments received
+    14216406 segments sent out
+    427010 segments retransmitted
+    46 bad segments received
